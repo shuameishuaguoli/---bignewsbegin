@@ -38,13 +38,47 @@
         <tfoot>
           <tr>
             <td colspan="3" class="text-center">
-              <a href="javascript:void(0)" class="btn btn-success" id="xinzengfenlei" data-toggle="modal" data-target="#myModal">新增分类</a>
+              <a href="javascript:void(0)" class="btn btn-success data-xinzeng" id="xinzengfenlei" data-toggle="modal" data-target="#myModal">新增分类</a>
             </td>
           </tr>
         </tfoot>
       </table>
     </div>
   </div>
+
+  <!-- 模态框 -->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">新增分类</h4>
+        </div>
+        <div class="modal-body">
+
+          <form id="new_zeng">
+            <div class="form-group">
+              <label for="exampleInputEmail1" class="style">分类名称</label>
+              <input type="text" class="form-control data-fenleiname" id="exampleInputEmail1">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1" class="style">分类别名</label>
+              <input type="text" class="form-control data-fenleibieming" id="exampleInputPassword1">
+            </div>
+          </form>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary data-newzeng">新增</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 模态框end -->
+
 </body>
 
 <!-- 创建script模板 -->
@@ -54,7 +88,7 @@
   {{each data}}
   <tr>
     <td>{{$value.name}}</td>
-    <td>{{$value.slug}}}</td>
+    <td>{{$value.slug}}</td>
     <td class="text-center">
       <a href="javascript:void(0);" data-toggle="modal" class=" btn btn-info btn-xs">编辑</a>
       <a href="javascript:void(0);" class="btn btn-danger btn-xs">删除</a>
@@ -64,16 +98,18 @@
 </script>
 
 <script>
-  // 需求：当点击了文章类别管理的时候，需要展示所有文章类别，也是用到了ajax技术
-  $.ajax({
-    // 设置url请求接口地址
-    url: BigNew.category_list,
-    // 设置请求方式
-    type: 'get',
-    // 响应服务器返回的数据
-    success: function(result) {
-        // 查看服务器返回的数据
-        console.log(result.data);
+  // 我们要给加载文章类别封装成一个方法，后面再次刷新的时候直接调用这个函数就可以啦
+  function get_lei() {
+    // 需求：当点击了文章类别管理的时候，需要展示所有文章类别，也是用到了ajax技术
+    $.ajax({
+      // 设置url请求接口地址
+      url: BigNew.category_list,
+      // 设置请求方式
+      type: 'get',
+      // 响应服务器返回的数据
+      success: function(result) {
+        // 查看一下服务器返回的数据
+        //   console.log(result.data);
         // 为了浏览器快速的处理数据，我们使用模板引擎来添加想要添加的内容，这里需要注意，template(参数1，参数2);这个方法中需要传递两个参数，第一个参数是模板的id用来指向HTML结构的script，第二个参数是从服务器响应回来的数据，第二个参数的类型必须是对象类型的{键：值}--->这种类型
         var str = template('text', result);
         // 这里要注意：template的返回值其实就已经将遍历出来的所有内容已经组合好了
@@ -82,7 +118,47 @@
         // 我们要将组合好的HTML标签添加到tbody标签中
         $('tbody').html(str);
       }
-      // 
+    });
+  }
+  //   调用一下git_lei方法
+  get_lei();
+
+  // 需求：当我点击新增分类按钮的时候，需要跳出一个模态框，给用户填写数据并提交数据，最后点击提交的时候还要关闭模态框，来我们先给新增分类按钮添加点击事件，点击新增按钮显示模态框bootstrap已经帮我们做好了，我们只需要做新增的工作就可以啦
+  $('.data-newzeng').click(function() {
+    //   获取form表单的DOM节点
+    var form = document.querySelector('#new_zeng');
+    //   当点击新增按钮的时候，需要获取到用户输入的分类名称和分类别名的内容，因为用户输入的内容是一个表单格式，所以我们要使用formdata来获取form表单中的信息，我们要先实例化一个formdata的一个实例对象，这个对象中需要传一个参数，这个参数就是获取到的form表单，这个对象的类型一定要是一个DOM节点类型
+    var fdata = new FormData(form);
+    var fenlei_name = $('.data-fenleiname').val().trim();
+    var data_fenleibieming = $('.data-fenleibieming').val().trim();
+    // 打印一下，看看能不能获取到用户输入框中的内容
+    // console.log(fenlei_name, data_fenleibieming);
+    // 我们使用ajax技术将获取到的内容传递到服务器
+    $.ajax({
+      // 设置请求方式
+      url: BigNew.category_add,
+      // 设置请求方式
+      type: 'post',
+      //   设置请求参数
+      data: {
+        name: fenlei_name,
+        slug: data_fenleibieming,
+      },
+      //   特别注意：如果formdata类型的数据和ajax联合使用的时候需要添加这两个参数，否则控制台就会报错
+      // 不设置类型
+      //   contentType: false,
+      // 不处理获取的数据
+      //   processData: false,
+      //   响应成功后，接收服务器响应的数据
+      success: function(result) {
+        //   打印一下，看看是否添加成功
+        // console.log(result);
+        // 点击了之后需要将模态框隐藏
+        $('#myModal').modal('hide');
+        // 调用显示分类的方法
+        get_lei();
+      }
+    });
   });
 </script>
 
