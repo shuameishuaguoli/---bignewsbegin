@@ -2,54 +2,88 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章列表</title>
-    <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/iconfont.css">
-    <link rel="stylesheet" href="css/main.css">
-    <script src="./libs/jquery-1.12.4.min.js"></script>
-    <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
-    <!-- 引入模板引擎js文件 -->
-    <script src="./libs/template-web.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>文章列表</title>
+  <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/iconfont.css">
+  <link rel="stylesheet" href="css/main.css">
+  <!-- 引入jQuery文件 -->
+  <script src="./libs/jquery-1.12.4.min.js"></script>
+  <!-- 引入bootstrap文件 -->
+  <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
+  <!-- 引入模板引擎js文件 -->
+  <script src="./libs/template-web.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="common_title">
-            文章类别管理
-        </div>
-        <div class="container-fluid common_con">
-            <table class="table table-striped table-bordered table-hover mp20 category_table">
-                <thead>
-                    <tr>
-                        <th>名称</th>
-                        <th>Slug</th>
-                        <th class="text-center" width="100">操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>奇趣事</td>
-                        <td>funny</td>
-                        <td class="text-center">
-                            <a href="javascript:void(0);" data-toggle="modal" class=" btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:void(0);" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <a href="javascript:void(0)" class="btn btn-success" id="xinzengfenlei" data-toggle="modal"
-                                data-target="#myModal">新增分类</a>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+  <div class="container-fluid">
+    <div class="common_title">
+      文章类别管理
     </div>
+    <div class="container-fluid common_con">
+      <table class="table table-striped table-bordered table-hover mp20 category_table">
+        <thead>
+          <tr>
+            <th>名称</th>
+            <th>Slug</th>
+            <th class="text-center" width="100">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- tr 内容区域 -->
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-center">
+              <a href="javascript:void(0)" class="btn btn-success" id="xinzengfenlei" data-toggle="modal" data-target="#myModal">新增分类</a>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</body>
+
+<!-- 创建script模板 -->
+<!-- 因为获取到的数据不是一条，所以我们要对获取到的数据进行遍历，模板引擎中的遍历是使用
+    {{each data}} data是result中的一个数组类型，这里要特别注意：遍历出来的-->
+<script type="text/html" id="text">
+  {{each data}}
+  <tr>
+    <td>{{$value.name}}</td>
+    <td>{{$value.slug}}}</td>
+    <td class="text-center">
+      <a href="javascript:void(0);" data-toggle="modal" class=" btn btn-info btn-xs">编辑</a>
+      <a href="javascript:void(0);" class="btn btn-danger btn-xs">删除</a>
+    </td>
+  </tr>
+  {{/each}}
+</script>
+
+<script>
+  // 需求：当点击了文章类别管理的时候，需要展示所有文章类别，也是用到了ajax技术
+  $.ajax({
+    // 设置url请求接口地址
+    url: BigNew.category_list,
+    // 设置请求方式
+    type: 'get',
+    // 响应服务器返回的数据
+    success: function(result) {
+        // 查看服务器返回的数据
+        console.log(result.data);
+        // 为了浏览器快速的处理数据，我们使用模板引擎来添加想要添加的内容，这里需要注意，template(参数1，参数2);这个方法中需要传递两个参数，第一个参数是模板的id用来指向HTML结构的script，第二个参数是从服务器响应回来的数据，第二个参数的类型必须是对象类型的{键：值}--->这种类型
+        var str = template('text', result);
+        // 这里要注意：template的返回值其实就已经将遍历出来的所有内容已经组合好了
+        // 这里可以打印一下这个str
+        // console.log(str);
+        // 我们要将组合好的HTML标签添加到tbody标签中
+        $('tbody').html(str);
+      }
+      // 
+  });
+</script>
 
 </html>
