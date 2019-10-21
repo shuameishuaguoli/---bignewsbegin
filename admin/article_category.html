@@ -91,7 +91,7 @@
     <td>{{$value.slug}}</td>
     <td class="text-center">
       <a href="javascript:void(0);" data-toggle="modal" class=" btn btn-info btn-xs">编辑</a>
-      <a href="javascript:void(0);" class="btn btn-danger btn-xs">删除</a>
+      <a href="javascript:void(0);" class="btn btn-danger btn-xs data-del" data-id='{{$value.id}}'>删除</a>
     </td>
   </tr>
   {{/each}}
@@ -109,7 +109,7 @@
       // 响应服务器返回的数据
       success: function(result) {
         // 查看一下服务器返回的数据
-        //   console.log(result.data);
+        console.log(result.data);
         // 为了浏览器快速的处理数据，我们使用模板引擎来添加想要添加的内容，这里需要注意，template(参数1，参数2);这个方法中需要传递两个参数，第一个参数是模板的id用来指向HTML结构的script，第二个参数是从服务器响应回来的数据，第二个参数的类型必须是对象类型的{键：值}--->这种类型
         var str = template('text', result);
         // 这里要注意：template的返回值其实就已经将遍历出来的所有内容已经组合好了
@@ -153,12 +153,52 @@
       success: function(result) {
         //   打印一下，看看是否添加成功
         // console.log(result);
+        // 添加成功之后需要将两个输入框中的内容进行清空
+        $('.data-fenleiname').val('');
+        $('.data-fenleibieming').val('');
         // 点击了之后需要将模态框隐藏
         $('#myModal').modal('hide');
-        // 调用显示分类的方法
+        // 调用显示分类的方法，将新添加的类别显示到页面上
         get_lei();
       }
     });
+  });
+
+  //   需求：当用户点击删除按钮的时候，就要删除一条数据
+  //   分析：我们要知道页面上显示的数据是页面加载后通过ajax技术和模板引擎技术显示到桌面上的，我们如果给删除按钮添加点击事件的话，那么后面新添加的数据中的删除按钮中的点击事件就没有注册上，所以我们使用事件委托来做，我们将点击事件，委托给所有删除按钮的父节点，tbody标签，这样后面新添加的数据中的删除按钮也就有了点击事件
+  $('tbody').on('click', '.data-del', function() {
+    // 当我们点击删除按钮的时候，我们需要获取到当前按钮上的自定义属性data-id的值，然后根据这个id值，利用ajax技术从服务器获取数据
+    // 获取当前点击的删除按钮上的id值
+    var id = this.getAttribute('data-id');
+    // 打印一下这个id值
+    // console.log(id);
+    $.ajax({
+      // 设置请求接口的url
+      url: BigNew.category_delete,
+      // 设置请求方式
+      type: 'post',
+      // 设置请求参数
+      data: {
+        id: id,
+      },
+      //   响应请求数据
+      success: function(result) {
+        // 打印一下看一下返回的是什么鬼
+        console.log(result);
+        if (result.code == 204) {
+          var queding = confirm('确定要删除吗？');
+          if (!queding) {
+            return;
+          } else {
+            //  如果数据删除成功，那么就要提示一下用户，数据删除成功
+            alert('数据删除成功！');
+            // 并且要刷新一下页面上的最新数据
+            get_lei();
+          }
+        }
+      }
+    });
+
   });
 </script>
 
