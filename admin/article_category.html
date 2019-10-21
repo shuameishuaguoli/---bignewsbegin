@@ -109,7 +109,7 @@
       // 响应服务器返回的数据
       success: function(result) {
         // 查看一下服务器返回的数据
-        console.log(result.data);
+        // console.log(result.data);
         // 为了浏览器快速的处理数据，我们使用模板引擎来添加想要添加的内容，这里需要注意，template(参数1，参数2);这个方法中需要传递两个参数，第一个参数是模板的id用来指向HTML结构的script，第二个参数是从服务器响应回来的数据，第二个参数的类型必须是对象类型的{键：值}--->这种类型
         var str = template('text', result);
         // 这里要注意：template的返回值其实就已经将遍历出来的所有内容已经组合好了

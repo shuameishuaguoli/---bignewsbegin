@@ -99,6 +99,20 @@
     $('.level02 li').click(function() {
       $(this).addClass('active').siblings().removeClass('active');
     });
+
+    // 需求5：当点击退出按钮的时候需要将存放到本地的token值进行清除，并且也要退出当前页面，显示登陆页面
+    $('.logout').click(function() {
+      // 为了用户友好的体验，我们要做一个用户询问，确定用户真的需要退出
+      var getout = confirm('确定真的要退出吗？');
+      if (!getout) {
+        return;
+      } else {
+        // 当我点击了退出按钮的时候我们需要将存放到本地的token值进行清除掉
+        window.localStorage.removeItem('token');
+        // 并且回到登录页面
+        window.location.href = './login.html';
+      }
+    });
   })
 </script>
 
