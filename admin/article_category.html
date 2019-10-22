@@ -126,9 +126,9 @@
   // 需求：当我点击新增分类按钮的时候，需要跳出一个模态框，给用户填写数据并提交数据，最后点击提交的时候还要关闭模态框，来我们先给新增分类按钮添加点击事件，点击新增按钮显示模态框bootstrap已经帮我们做好了，我们只需要做新增的工作就可以啦
   $('.data-newzeng').click(function() {
     //   获取form表单的DOM节点
-    var form = document.querySelector('#new_zeng');
+    //var form = document.querySelector('#new_zeng');
     //   当点击新增按钮的时候，需要获取到用户输入的分类名称和分类别名的内容，因为用户输入的内容是一个表单格式，所以我们要使用formdata来获取form表单中的信息，我们要先实例化一个formdata的一个实例对象，这个对象中需要传一个参数，这个参数就是获取到的form表单，这个对象的类型一定要是一个DOM节点类型
-    var fdata = new FormData(form);
+    //var fdata = new FormData(form);
     var fenlei_name = $('.data-fenleiname').val().trim();
     var data_fenleibieming = $('.data-fenleibieming').val().trim();
     // 打印一下，看看能不能获取到用户输入框中的内容
