@@ -2,76 +2,217 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章列表</title>
-    <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/iconfont.css">
-    <link rel="stylesheet" href="./css/main.css">
-    <script src="./libs/jquery-1.12.4.min.js"></script>
-    <!-- 引入模板引擎js文件 -->
-    <script src="./libs/template-web.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>文章列表</title>
+  <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <!-- 引入jQuery的js文件 -->
+  <script src="./libs/jquery-1.12.4.min.js"></script>
+  <!-- 引入模板引擎js文件 -->
+  <script src="./libs/template-web.js"></script>
+  <!-- 引入bootstrap的js文件 -->
+  <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
+  <!-- 引入bootstrap的css文件 -->
+  <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
+  <!-- 引入分页插件的js功能 -->
+  <script src="./libs/jquery.twbsPagination.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="common_title">
-            文章列表
-        </div>
-        <div class="container-fluid common_con">
-            <div class="row opt_btns">
-                <div class="col-xs-6">
-                    <form class="form-inline">
-                        <select id="selCategory" name="" class="form-control input-sm">
-                            <option value="">所有分类</option>
-                            <option>未分类</option>
-                            <option>奇趣事</option>
-                            <option>会生活</option>
-                            <option>爱旅行</option>
-                        </select>
-                        <select id="selStatus" name="" class="form-control input-sm">
+  <div class="container-fluid">
+    <div class="common_title">
+      文章列表
+    </div>
+    <div class="container-fluid common_con">
+      <div class="row opt_btns">
+        <div class="col-xs-6">
+          <form class="form-inline">
+            <select id="selCategory" name="" class="form-control input-sm">
+              <!-- 文章的所有分类位置 -->
+            </select>
+            <select id="selStatus" name="" class="form-control input-sm">
                             <option value="">所有状态</option>
                             <option value="草稿">草稿</option>
                             <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
-                    </form>
-                </div>
-                <div class="col-xs-6">
-                    <a href="article_release.html" class="btn btn-success btn-sm pull-right" id="release_btn">发表文章</a>
-                </div>
-            </div>
-            <table class="table table-striped table-bordered table-hover mp20">
-                <thead>
-                    <tr>
-                        <th>标题</th>
-                        <th>作者</th>
-                        <th>分类</th>
-                        <th class="text-center">发表时间</th>
-                        <th class="text-center">状态</th>
-                        <th class="text-center" width="100">操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>王积千造统最头</td>
-                        <td>杰克</td>
-                        <td>奇趣事</td>
-                        <td class="text-center">2017-06-08 07:08:46</td>
-                        <td class="text-center">已发布</td>
-                        <td class="text-center">
-                            <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                            <a href="javascript:void(0);" class="btn btn-danger btn-xs delete">删除</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="row text-center">
-            </div>
+            <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+          </form>
         </div>
+        <div class="col-xs-6">
+          <a href="article_release.html" class="btn btn-success btn-sm pull-right" id="release_btn">发表文章</a>
+        </div>
+      </div>
+      <table class="table table-striped table-bordered table-hover mp20">
+        <thead>
+          <tr>
+            <th>标题</th>
+            <th>作者</th>
+            <th>分类</th>
+            <th class="text-center">发表时间</th>
+            <th class="text-center">状态</th>
+            <th class="text-center" width="100">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 文章类表位置 -->
+        </tbody>
+      </table>
+      <div class="row text-center">
+        <!-- 分页插件的HTML结构代码start -->
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+        <!-- 分页插件的HTML结构代码end -->
+      </div>
     </div>
+  </div>
 </body>
+
+<!-- 定义所有分类的引擎模板 -->
+<script type="text/html" id="text">
+  <option value="0">所有分类</option>
+  {{each data}}
+  <option value="{{$value.id}}">{{$value.name}}</option>
+  {{/each}}
+</script>
+
+<!-- 定义所有文章的引擎模板 -->
+<script type="text/html" id="article">
+  {{each data.data}}
+  <tr>
+    <td>{{$value.title}}</td>
+    <td>{{$value.author}}</td>
+    <td>{{$value.category}}</td>
+    <td class="text-center">{{$value.date}}</td>
+    <td class="text-center">{{$value.state}}</td>
+    <td class="text-center">
+      <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+      <a href="javascript:void(0);" class="btn btn-danger btn-xs delete">删除</a>
+    </td>
+  </tr>
+  {{/each}}
+</script>
+<script>
+  $(function() {
+    //  为了方便后期更改每页展示的文章的数量，我们要将perpage这个值抽取成全局变量，后期需要更改每页展示的数量的话，只需要给变这个全局变量的值就可以啦
+    var perpage = 10;
+    // <!-- 需求1：当页面加载的时候，需要将所有分类下拉列表中的option内容进行显示 -->
+    $.ajax({
+      // 设置url接口地址
+      url: BigNew.category_list,
+      // 设置请求方式
+      type: 'get',
+      // 响应服务器返回的数据
+      success: function(result) {
+        console.log(result);
+      }
+    });
+
+
+    // 需求2：当页面加载的时候需要向服务器发送请求，将响应回来的数据显示到页面上
+    $.ajax({
+      //设置url请求地址
+      url: BigNew.article_query,
+      // 设置请求方式
+      type: 'get',
+      //   设置每页的文章的展示数量
+      data: {
+        perpage: perpage,
+      },
+      // 响应服务器返回的数据
+      success: function(result) {
+        console.log(result);
+        // 使用模板引擎中的template()方法,result必须是对象类型
+        var str = template('article', result);
+        // 将渲染好的str数据添加tbody的标签中
+        $('tbody').html(str);
+
+        //   调用template()方法，方法中需要传两个参数，第一个参数是定义模板的id，第二个参数是从服务器中获取到的数据，注意这个数据一定要是对象类型
+        var str = template('text', result);
+        $('#selCategory').html(str);
+        // 分析，分页的逻辑代码应该放到哪里呢？因为需要考虑到分页的总页数的问题，所以我们要将分页的逻辑代码写在所有文章信息获取到的这个success中的回调函数中，才能获取到服务器返回来的总页数
+        // 分页逻辑代码start
+        $('#pagination-demo').twbsPagination({
+          // 页码的总页数
+          totalPages: result.data.totalPage,
+          //   ul标签中的显示几个页码
+          visiblePages: 7,
+          first: '首页',
+          prev: '上一页',
+          next: '下一页',
+          last: '尾页',
+          // 获取到每页的页码
+          onPageClick: function(event, page) {
+            //   获取到当前页的页码
+            console.log(page);
+            // 当我点击下一页按钮的时候需要想服务器发送请求，获取当前页码的文章内容
+            $.ajax({
+              // 设置请求的url接口地址
+              url: BigNew.article_query,
+              // 设置请求方式
+              type: 'get',
+              // 设置请求参数
+              data: {
+                //   向服务器发送当前页的页码
+                page: page,
+                // 发送每页显示的文章条数
+                perpage: perpage,
+              },
+              success: function(result) {
+                console.log(result);
+                // 使用模板引擎将获取到文章渲染到页面上
+                var str = template('article', result);
+                // 渲染到tbody这个标签上
+                $('tbody').html(str);
+              }
+            });
+          }
+        });
+        // 分页逻辑代码end
+      }
+    });
+
+    // 需求：当我点击筛选按钮的时候需要获取到分类下拉类表的option中的value值，因为value中有id值，还需要获取到所有状态下中的草稿和已发布，首先要先给筛选按钮注册一个点击事假
+    $('#btnSearch').click(function(e) {
+      // 因为删除按钮是使用button按钮实现的，所有我们要将按钮的默认行为进行禁止，使用事件对象来将默认行为进行禁止
+      e.preventDefault();
+      // 当我点击删除按钮的时候需要获取到所有分类和所有状态的value值
+      var type = $('#selCategory').val();
+      var state = $('#selStatus').val();
+      console.log(type, state);
+      //   当点击了筛选按钮的时候需要将将id和state两个变量值使用ajax技术向服务器发送请求
+      $.ajax({
+        // 设置url请求地址
+        url: BigNew.article_query,
+        // 设置请求方式
+        type: 'get',
+        // 设置请求参数
+        data: {
+          type: type,
+          state: state,
+          perpage: perpage,
+        },
+        // 响应服务器返回来的数据
+        success: function(result) {
+          // 打印一下看看服务器响应回来的是什么数据
+          console.log(result);
+          //     调用模板引擎中的template()方法，第一个参数是模板id，第二个参数是从服务器中响应回来的数据
+          var str = template('article', result);
+          // 使用模板引擎将获取到的数据渲染到页面上
+          $('tbody').html(str);
+        }
+      });
+    });
+
+
+
+
+
+
+    // 
+  });
+</script>
 
 </html>
