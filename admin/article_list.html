@@ -72,7 +72,7 @@
 
 <!-- 定义所有分类的引擎模板 -->
 <script type="text/html" id="text">
-  <option value="0">所有分类</option>
+  <option value="">所有分类</option>
   {{each data}}
   <option value="{{$value.id}}">{{$value.name}}</option>
   {{/each}}
@@ -107,6 +107,9 @@
       // 响应服务器返回的数据
       success: function(result) {
         console.log(result);
+        //   调用template()方法，方法中需要传两个参数，第一个参数是定义模板的id，第二个参数是从服务器中获取到的数据，注意这个数据一定要是对象类型
+        var str = template('text', result);
+        $('#selCategory').html(str);
       }
     });
 
@@ -115,8 +118,6 @@
     $.ajax({
       //设置url请求地址
       url: BigNew.article_query,
-      // 设置请求方式
-      type: 'get',
       //   设置每页的文章的展示数量
       data: {
         perpage: perpage,
@@ -129,11 +130,8 @@
         // 将渲染好的str数据添加tbody的标签中
         $('tbody').html(str);
 
-        //   调用template()方法，方法中需要传两个参数，第一个参数是定义模板的id，第二个参数是从服务器中获取到的数据，注意这个数据一定要是对象类型
-        var str = template('text', result);
-        $('#selCategory').html(str);
-        // 分析，分页的逻辑代码应该放到哪里呢？因为需要考虑到分页的总页数的问题，所以我们要将分页的逻辑代码写在所有文章信息获取到的这个success中的回调函数中，才能获取到服务器返回来的总页数
-        // 分页逻辑代码start
+        // // 分析，分页的逻辑代码应该放到哪里呢？因为需要考虑到分页的总页数的问题，所以我们要将分页的逻辑代码写在所有文章信息获取到的这个success中的回调函数中，才能获取到服务器返回来的总页数
+        // // 分页逻辑代码start
         $('#pagination-demo').twbsPagination({
           // 页码的总页数
           totalPages: result.data.totalPage,
@@ -145,20 +143,25 @@
           last: '尾页',
           // 获取到每页的页码
           onPageClick: function(event, page) {
+            //   当我点击每一页的页码的时候，就需要获取一下所有分类和所有状态
+            var type = $('#selCategory').val();
+            var state = $('#selStatus').val();
             //   获取到当前页的页码
             console.log(page);
             // 当我点击下一页按钮的时候需要想服务器发送请求，获取当前页码的文章内容
             $.ajax({
               // 设置请求的url接口地址
               url: BigNew.article_query,
-              // 设置请求方式
-              type: 'get',
               // 设置请求参数
               data: {
                 //   向服务器发送当前页的页码
                 page: page,
                 // 发送每页显示的文章条数
                 perpage: perpage,
+                // 获取所有分类中的id
+                type: type,
+                // 获取当前状态
+                state: state,
               },
               success: function(result) {
                 console.log(result);
@@ -174,7 +177,7 @@
       }
     });
 
-    // 需求：当我点击筛选按钮的时候需要获取到分类下拉类表的option中的value值，因为value中有id值，还需要获取到所有状态下中的草稿和已发布，首先要先给筛选按钮注册一个点击事假
+    // 需求3：当我点击筛选按钮的时候需要获取到分类下拉类表的option中的value值，因为value中有id值，还需要获取到所有状态下中的草稿和已发布，首先要先给筛选按钮注册一个点击事假
     $('#btnSearch').click(function(e) {
       // 因为删除按钮是使用button按钮实现的，所有我们要将按钮的默认行为进行禁止，使用事件对象来将默认行为进行禁止
       e.preventDefault();
@@ -202,6 +205,10 @@
           var str = template('article', result);
           // 使用模板引擎将获取到的数据渲染到页面上
           $('tbody').html(str);
+
+          //   //     点击了筛选，就要改变总页数
+          $('#pagination-demo').twbsPagination('changeTotalPages', result.data.totalPage, 1);
+
         }
       });
     });
