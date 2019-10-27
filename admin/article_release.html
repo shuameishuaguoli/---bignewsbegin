@@ -2,71 +2,145 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章列表</title>
-    <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/iconfont.css">
-    <link rel="stylesheet" href="css/main.css">
-    <!-- jq -->
-    <script src="./libs/jquery-1.12.4.min.js"></script>
-    <!-- 模板引擎 -->
-    <script src="./libs/template-web.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>文章列表</title>
+  <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/iconfont.css">
+  <link rel="stylesheet" href="css/main.css">
+  <!-- jq -->
+  <script src="./libs/jquery-1.12.4.min.js"></script>
+  <!-- 模板引擎 -->
+  <script src="./libs/template-web.js"></script>
+  <!-- 引入时间插件的js文件 -->
+  <script src="./libs/jedate.js"></script>
+  <!-- 引入时间插件的css文件 -->
+  <link rel="stylesheet" href="./css/jeDate-test.css">
+  <link rel="stylesheet" href="./css/jedate.css">
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="common_title">
-            文章编辑
+  <div class="container-fluid">
+    <div class="common_title">
+      文章编辑
+    </div>
+    <div class="container-fluid common_con">
+      <form class="form-horizontal article_form" id="form">
+        <div class="form-group">
+          <label for="inputTitle" class="col-sm-2 control-label">文章标题：</label>
+          <div class="col-sm-10">
+            <input type="text" name="title" class="form-control title" id="inputTitle" value="文章标题文字">
+          </div>
         </div>
-        <div class="container-fluid common_con">
-            <form class="form-horizontal article_form" id="form">
-                <div class="form-group">
-                    <label for="inputTitle" class="col-sm-2 control-label">文章标题：</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control title" id="inputTitle" value="文章标题文字">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputCover" class="col-sm-2 control-label">文章封面：</label>
-                    <div class="col-sm-10">
-                        <img src="images/pic06.jpg" class="article_cover">
-                        <input name="cover" type="file" id="inputCover">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputCategory" class="col-sm-2 control-label">文章类别：</label>
-                    <div class="col-sm-4">
-                        <select class="form-control category" name="categoryId">
-                            <option>类别一</option>
+        <div class="form-group">
+          <label for="inputCover" class="col-sm-2 control-label">文章封面：</label>
+          <div class="col-sm-10">
+            <img src="images/pic06.jpg" class="article_cover">
+            <input name="cover" type="file" id="inputCover" multiple>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputCategory" class="col-sm-2 control-label">文章类别：</label>
+          <div class="col-sm-4">
+            <select class="form-control category" name="categoryId" id="leibie">
+                            <!-- <option>类别一</option>
                             <option>类别二</option>
                             <option>类别三</option>
                             <option selected>类别四</option>
-                            <option>类别五</option>
+                            <option>类别五</option> -->
                         </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">发布时间：</label>
-                    <div class="col-sm-4">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
-                    <div class="col-sm-10">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success btn-release">发布</button>
-                        <button type="submit" class="btn btn-default btn-draft">存为草稿</button>
-                    </div>
-                </div>
-            </form>
+          </div>
         </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">发布时间：</label>
+          <div class="col-sm-4">
+            <!-- 时间插件的HTML代码start -->
+            <input id="theme01" name="date" type="text" placeholder="请选择" readonly>
+            <!-- 时间插件的HTML代码end -->
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
+          <div class="col-sm-10">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success btn-release">发布</button>
+            <button type="submit" class="btn btn-default btn-draft">存为草稿</button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 </body>
+<!-- 定义文章类别的引擎模板start -->
+<script type="text/html" id="text">
+  {{each data}}
+  <option value='{{$value.id}}'>{{$value.name}}</option>
+  {{/each}}
+</script>
+<!-- 定义文章类别的引擎模板end -->
+
+
+<!--  -->
+<script>
+  // jquery的入口函数
+  $(function() {
+    // 需求：当点击文件上传控件儿的时候，需要预览一下上传的图片
+    // 分析：当点击文件上传控件儿的时候，需要获取一下上传到文件控件儿中的文件，所以我们要给文件上传控件注册内容改变事件change事件，当文件控件儿中的内容发生改变的时候，需要给上传到文件控件儿中的图片分配一个临时的url地址，我们要将这个临时生成的url地址要设置给img标签中的src属性，这样当我们上传一张图片的时候就能预览到上传的图片了
+    $('#inputCover').change(function() {
+      // 当选择了文件之后需要在页面中获取到上传到页面上的文件，通过文件上传控件上传的文件都放到了files这个属性下边，files是一个数组，因为files是数组，所有可以上传多个文件
+      var file = this.files[0];
+      //   console.log($(this));
+      //   console.log(file);
+      // 给获取到的这个文件给定一个临时的url地址，使用URL.createObjectURL()这个方法需要传一个文件
+      var url = URL.createObjectURL(file);
+      //   测试一下这个url是否能访问到图片
+      //   console.log(url);
+      //   我们要将这个临时地址url给img标签设置src的属性
+      $('.article_cover').attr('src', url);
+    });
+
+
+    // 需求：当加载页面的时候需要从服务器获取到文章类别的数据，并渲染到下拉列表中的option中
+    // 分析：我们使用ajax技术，当页面加载的时候需要从服务器获取数据，并使用模板引擎将获取到的数据渲染到页面上
+    $.ajax({
+      // 设置请求url的接口地址
+      url: BigNew.category_list,
+      // 设置请求方式
+      type: 'get',
+      // 响应服务器返回的数据
+      success: function(result) {
+        console.log(result);
+        // 我们将获取到的数据使用模板引擎进行渲染
+        var str = template('text', result);
+        // 在列表的下拉框中进行显示
+        $('#leibie').html(str);
+      }
+    });
+
+    // 时间插件儿的逻辑代码start
+    //蓝色主题色
+    jeDate("#theme01", {
+      theme: {
+        bgcolor: "#00A1CB",
+        color: "#ffffff",
+        pnColor: "#00CCFF"
+      },
+      format: "YYYY-MM-DD",
+      //   注意：如果在引入后需要提高一下这个时间插件的层级，需要调到最高
+      zIndex: 99999,
+    });
+    // 时间插件儿的逻辑代码end
+
+
+
+    // 
+  });
+</script>
+<!--  -->
 
 </html>

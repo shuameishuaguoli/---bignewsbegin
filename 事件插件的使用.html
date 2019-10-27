@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 引入事件插件的js文件 -->
+  <script src="./js/jedate.js"></script>
+  <!-- 引入时间插件的css文件 -->
+  <link rel="stylesheet" href="./css/jedate.css">
+  <link rel="stylesheet" href="./css/jeDate-test.css">
+</head>
+
+<body>
+  <input id="theme01" name="date" type="text" placeholder="请选择" readonly>
+</body>
+<script>
+  //蓝色主题色
+  jeDate("#theme01", {
+    theme: {
+      bgcolor: "#00A1CB",
+      color: "#ffffff",
+      pnColor: "#00CCFF"
+    },
+    format: "YYYY-MM-DD",
+    zIndex: 99999,
+  });
+</script>
+
+</html>
