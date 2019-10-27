@@ -125,6 +125,8 @@
       }
     });
 
+
+    // -----------------------------------------------------------------
     // 时间插件儿的逻辑代码start
     //蓝色主题色
     jeDate("#theme01", {
@@ -138,14 +140,66 @@
       zIndex: 99999,
     });
     // 时间插件儿的逻辑代码end
+    // -----------------------------------------------------------------
 
+    // -----------------------------------------------------------------
     // 富文本编辑器的逻辑代码start
     var E = window.wangEditor
     var editor = new E('#editor')
       // 或者 var editor = new E( document.getElementById('editor') )
     editor.create()
       // 富文本编辑器的逻辑代码end
+      // -----------------------------------------------------------------
 
+    // 需求：点击发布按钮的时候将所填写的内容发布到文章类表上，并且跳转到文章列表页面
+    // 分析：首先我们要给发布按钮注册一个点击事件，当我点击发布按钮的时候需要获取到form表单中所有的内容，并将获取到的内容发送到服务器中并且将发布的内容添加到文章列表页面中，最后跳转到文章列表页面上
+    function fabu_caogao(dom, state) {
+      // 首先我们要先给发布按钮注册一个点击事件'.btn-release'
+      $(dom).click(function(e) {
+        // 因为这个发布按钮是使用submit类型的input按钮实现的，所以我们要将这个按钮的默认行为禁止掉，我们使用事件对象来将发布按钮的默认行为给禁止掉
+        e.preventDefault();
+        // 这些内容都在form表单中，我们要先实例化一个form的表单对象，需要注意：formData()这个方法中需要传一个参数，这个参数的类型必须是DOM节点对象不能是jQuery对象，$('form')[0]这种方式就是将jQuery对象转换成DOM对象
+        var form = new FormData($('form')[0]);
+        //   因为 content 文章内容和 state 是在form表单中获取不到的，所以我们给form表单添加键名，来吧。。
+        // 先获取富文本框中的内容
+        form.append('content', editor.txt.text());
+        //   再将问文章状态进行设置
+        form.append('state', state);
+        //   将文章类型也添加到form表单中
+        //   form.append('categoryId', $('#leibie').val());
+        // 现在form表单中的内容已经获取到了，我们要使用ajax技术将获取到的内容发送到服务器中
+        $.ajax({
+          // 设置url请求地址
+          url: BigNew.article_publish,
+          // 设置请求方式
+          type: 'post',
+          // 设置请求参数，需要注意，这里的请求参数类型是formdata类型的
+          data: form,
+          // 对获取到的数据不进行处理
+          contentType: false,
+          processData: false,
+          // 响应服务器返回来的数据
+          success: function(result) {
+            console.log(result);
+            //   进行判断一下，如果返回值是200，那么给用户一个提示
+            if (result.code == 200) {
+              //  友好提示
+              alert(result.msg);
+              // 并跳转到文章列表页面
+              window.location.href = './article_list.html';
+            } else {
+              alert('文章新增失败');
+            }
+          }
+        });
+      });
+    }
+
+    // 调用一下封装的发布的方法 这是点击发布按钮
+    fabu_caogao('.btn-release', '已发布');
+
+    // 再次调用一下发布的方法，这是点击草稿按钮
+    fabu_caogao('.btn-draft', '草稿');
 
     // 
   });
