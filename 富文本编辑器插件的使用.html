@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>富文本编辑器的使用</title>
+  <!-- 引入富文本编辑器的js文件 -->
+  <script src="./admin/libs/wangEditor.min.js"></script>
+</head>
+
+<body>
+  <div id="editor">
+    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+  </div>
+</body>
+
+<script>
+  // 
+  var E = window.wangEditor
+  var editor = new E('#editor')
+    // 或者 var editor = new E( document.getElementById('editor') )
+  editor.create()
+    //
+</script>
+
+</html>

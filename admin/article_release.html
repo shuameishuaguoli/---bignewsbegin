@@ -19,6 +19,8 @@
   <!-- 引入时间插件的css文件 -->
   <link rel="stylesheet" href="./css/jeDate-test.css">
   <link rel="stylesheet" href="./css/jedate.css">
+  <!-- 引入富文本编辑器的js文件 -->
+  <script src="./libs/wangEditor.min.js"></script>
 </head>
 
 <body>
@@ -45,11 +47,7 @@
           <label for="inputCategory" class="col-sm-2 control-label">文章类别：</label>
           <div class="col-sm-4">
             <select class="form-control category" name="categoryId" id="leibie">
-                            <!-- <option>类别一</option>
-                            <option>类别二</option>
-                            <option>类别三</option>
-                            <option selected>类别四</option>
-                            <option>类别五</option> -->
+                            <!-- 文章类别的内容 -->
                         </select>
           </div>
         </div>
@@ -64,6 +62,11 @@
         <div class="form-group">
           <label for="inputEmail3" class="col-sm-2 control-label">文章内容：</label>
           <div class="col-sm-10">
+            <!-- 富文本编辑器的HTML代码start -->
+            <div id="editor">
+              <p>请留下您想写的内容吧 (#^.^#) </p>
+            </div>
+            <!-- 富文本编辑器的HTML代码end -->
           </div>
         </div>
         <div class="form-group">
@@ -136,6 +139,12 @@
     });
     // 时间插件儿的逻辑代码end
 
+    // 富文本编辑器的逻辑代码start
+    var E = window.wangEditor
+    var editor = new E('#editor')
+      // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+      // 富文本编辑器的逻辑代码end
 
 
     // 
