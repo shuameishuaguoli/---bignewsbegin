@@ -10,8 +10,16 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/iconfont.css">
   <link rel="stylesheet" href="css/main.css">
+  <!-- 加载jQuery的js文件 -->
   <script src="./libs/jquery-1.12.4.min.js"></script>
+  <!-- 加载模板引擎的js文件 -->
   <script src="./libs/template-web.js"></script>
+  <!-- 加载bootstrap的js文件 -->
+  <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
+  <!-- 加载bootstrap的css文件 -->
+  <script src="./libs/bootstrap/css/bootstrap.min.css"></script>
+  <!-- 加载分页插件的js文件 -->
+  <script src="./libs/jquery.twbsPagination.js"></script>
 </head>
 
 <body>
@@ -32,18 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>小周</td>
-            <td>这是一条测试评论，欢迎光临</td>
-            <td>《世界，你好》</td>
-            <td>2017-07-04 12:00:00</td>
-            <td>已批准</td>
-            <td class="text-center">
-              <a href="javascript:void(0);;" class="btn btn-warning btn-xs">拒绝</a>
-              <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr class="danger">
+          <!-- <tr class="danger">
             <td>小右</td>
             <td>你好啊，交个朋友好吗？</td>
             <td>《世界，你好》</td>
@@ -53,113 +50,144 @@
               <a href="javascript:void(0);;" class="btn btn-info btn-xs">批准</a>
               <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
             </td>
-          </tr>
-          <tr class="danger">
-            <td>老周</td>
-            <td>不好</td>
-            <td>《世界，你好》</td>
-            <td>2017-07-09 22:22:00</td>
-            <td>待审核</td>
-            <td class="text-center">
-              <a href="javascript:void(0);;" class="btn btn-info btn-xs">批准</a>
-              <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr class="danger">
-            <td>中周</td>
-            <td>How are you?</td>
-            <td>《世界，你好》</td>
-            <td>2017-07-09 18:22:00</td>
-            <td>待审核</td>
-            <td class="text-center">
-              <a href="javascript:void(0);;" class="btn btn-info btn-xs">批准</a>
-              <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>小右</td>
-            <td>I am fine thank you and you?</td>
-            <td>《世界，你好》</td>
-            <td>2017-07-11 22:22:00</td>
-            <td>已批准</td>
-            <td class="text-center">
-              <a href="javascript:void(0);;" class="btn btn-warning btn-xs">拒绝</a>
-              <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>哈哈</td>
-            <td>一针见血</td>
-            <td>《世界，你好》</td>
-            <td>2017-07-22 09:10:00</td>
-            <td>已批准</td>
-            <td class="text-center">
-              <a href="javascript:void(0);;" class="btn btn-warning btn-xs">拒绝</a>
-              <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>武秀英</td>
-            <td>外影广条同取水权科速工与。矿身面却属次养导务作者用品油调。高石期品极放存斗一号口消别共去。</td>
-            <td>《世界，你好》</td>
-            <td>1970-03-15 11:31:50</td>
-            <td>已拒绝</td>
-            <td class="text-center">
-              <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>胡娟</td>
-            <td>采参什正面准观提干在易东统。走部系取团商机酸科往证和流物实则。入程用指学行利划影现清关织方。</td>
-            <td>《第四篇示例文章》</td>
-            <td>1970-03-23 14:16:57</td>
-            <td>已拒绝</td>
-            <td class="text-center">
-              <a href="javascript:void(0);;" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>邵艳</td>
-            <td>国新研目心思力品家织通还如周气长多。话它思造约众系压程它过去全。必导则达发前何西最老四关向。</td>
-            <td>《第一篇示例文章》</td>
-            <td>1970-04-19 12:34:27</td>
-            <td>已拒绝</td>
-            <td class="text-center">
-              <a href="javascript:editTr( 'trashed',10 );" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
-          <tr>
-            <td>唐军</td>
-            <td>好联律物联使进很们有严这里月之。实养件矿商除政究定划必火起划六。内百那则变次引持只情车各地织持。</td>
-            <td>《第四篇示例文章》</td>
-            <td>1970-04-24 11:22:29</td>
-            <td>已批准</td>
-            <td class="text-center">
-              <a href="javascript:editTr( 'rejected',11 );" class="btn btn-warning btn-xs">拒绝</a>
-              <a href="javascript:editTr( 'trashed',11 );" class="btn btn-danger btn-xs">删除</a>
-            </td>
-          </tr>
+          </tr> -->
+
         </tbody>
       </table>
       <div class="row text-center">
-        <ul class="pagination pagination-sm">
-          <li class="page-item first disabled"><a href="#" class="page-link">首页</a></li>
-          <li class="page-item prev disabled"><a href="#" class="page-link">上一页</a></li>
-          <li class="page-item active"><a href="#" class="page-link">1</a></li>
-          <li class="page-item"><a href="#" class="page-link">2</a></li>
-          <li class="page-item"><a href="#" class="page-link">3</a></li>
-          <li class="page-item"><a href="#" class="page-link">4</a></li>
-          <li class="page-item"><a href="#" class="page-link">5</a></li>
-          <li class="page-item"><a href="#" class="page-link">6</a></li>
-          <li class="page-item"><a href="#" class="page-link">7</a></li>
-          <li class="page-item next"><a href="#" class="page-link">下一页</a></li>
-          <li class="page-item last"><a href="#" class="page-link">尾页</a></li>
-        </ul>
-        <ul id="pagination" class="pagination-sm"></ul>
-      </div>
 
+        <!-- 分页插件的HTML的结构start -->
+        <ul id="pagination-demo" class="pagination-sm"></ul>
+        <!-- 分页插件的HTML的结构end -->
+
+      </div>
     </div>
   </div>
 </body>
+<!-- 定义评论模板 -->
+<script type="text/html" id="text">
+  {{each data.data}}
+  <tr class="danger">
+    <td>{{$value.author}}</td>
+    <td>{{$value.content}}</td>
+    <td>{{$value.title}}</td>
+    <td>{{$value.date}} {{$value.time}}</td>
+    <td>待审核</td>
+    <td class="text-center">
+      <a href="javascript:void(0);;" class="btn btn-info btn-xs">批准</a>
+      <a href="javascript:void(0);;" class="btn btn-danger btn-xs" data-id="{{$value.id}}">删除</a>
+    </td>
+  </tr>
+  {{/each}}
+</script>
+
+<script>
+  // 
+  // jQuery的入口函数
+  $(function() {
+
+    function wenzhang_list() {
+      // 需求：当我加载页面的时候需要获取到所有的评论
+      // 分析：到我加载页面的时候，需要向服务器发送请求，并将获取到的评论展示到页面上
+      $.ajax({
+        // 设置url接口地址
+        url: BigNew.comment_list,
+        // 设置请求方式
+        type: 'get',
+        // 响应服务器返回的数据
+        success: function(result) {
+          console.log(result);
+          // 数据获取到了，我们使用模板引擎来渲染到页面，调用template方法
+          var str = template('text', result);
+          // 将获取到的内容添加到了tbody标签中
+          $('tbody').html(str);
+
+          //分页功能start
+          $('#pagination-demo').twbsPagination({
+            totalPages: result.data.totalPage,
+            visiblePages: 7,
+            first: '首页',
+            prev: '上一页',
+            next: '下一页',
+            last: '尾页',
+            onPageClick: function(event, page) {
+              // 查看一下page和event分别是表示的是什么，page是表示的当前的哪一个页面的页码
+              // console.log(event, page);
+              // 获取到当前的页码之后，需要发送ajax请求去服务器去获取数据
+              $.ajax({
+                // 设置url接口请求地址
+                url: BigNew.comment_list,
+                // 设置请求方式
+                type: 'get',
+                // 设置请求参数
+                data: {
+                  page: page,
+                },
+                // 响应服务器返回的数据
+                success: function(result) {
+                  console.log(result);
+                  // 同样使用模板引擎的方法将获取到的评论数据渲染到页面上
+                  var str = template('text', result);
+                  $('tbody').html(str);
+                }
+              });
+            }
+          });
+          //分页功能end
+        }
+      });
+    }
+
+    // 调用一下wenzhang_list()这个方法
+    wenzhang_list();
+
+    // 需求：点击删除按钮，当前的评论进行了删除，并且服务器中数据库上的数据真的就进行了删除
+    //分析：给删除按钮注册一个点击事件，但是我们需要考虑这些点击按钮是页面加载之后从服务器获取到的数据，我们不应该给删除按钮注册点击事件，我们应该使用事件委托机制来做点击事件的注册，我们要给删除按钮的父元素注册点击事件
+    $('tbody').on('click', '.btn-danger', function() {
+      // 当用户点击了删除按钮，需要询问一下用户是否真的需要删除评论
+      var firm = confirm('是否真的需要删除评论？');
+      // 如果返回的是false则直接终止代码的执行
+      if (!firm) {
+        return;
+      } else { //如果返回值是true，则直接进行删除
+        // 测试一下，看看事件能不能注册成功
+        // console.log('我被点击了');
+        // 当点击删除按钮的时候需要获取到点前点击删除按钮的id值
+        var id = $(this).attr('data-id');
+        // 测试一下，看看能不能获取到当前点击的删除按钮上的自定义的id值
+        // console.log(id);
+        // 我们使用ajax技术将获取到的id值传到服务器中
+        $.ajax({
+          // 设置请求的url接口地址
+          url: BigNew.comment_delete,
+          // 设置请求方式
+          type: 'post',
+          // 设置请求参数
+          data: {
+            id: id,
+          },
+          // 响应服务器的返回的数据
+          success: function(result) {
+            // 查看一下服务器响应回来的内容
+            console.log(result);
+            // 进行一下判断
+            if (result.code == 200) {
+              // 为了用户体验，提示一下用户，评论已被删除
+              alert('评论已被删除~~');
+              // 评论删除成功之后，需要更新一下当前的评论页面，所有需要再次调用一下显示评论的方法
+              wenzhang_list();
+            } else {
+              alert('评论删除失败~~');
+            }
+          }
+        });
+      }
+
+
+    });
+
+    //
+  })
+</script>
 
 </html>
